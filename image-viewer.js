@@ -424,21 +424,25 @@ window.ImageViewer = (function () {
       #iv-image-list {
         width: 100%;
         height: 100%;
+        translate: -100%;
         transition: 0s;
       }
       #iv-image-list li {
         cursor: move;
+        position: fixed;
         width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
+        will-change: transform;
       }
       #iv-image-list li img {
         max-width: 100%;
         max-height: 100%;
         transition: transform 0.05s linear;
+        will-change: transform;
       }
       #iv-image-list li img.loaded {
         max-width: none;
@@ -683,10 +687,10 @@ window.ImageViewer = (function () {
 
       const current = shadowRoot.querySelector('li.current')
       const currIndex = list.indexOf(current)
+      current.style.translate = '100%'
 
       counterTotal.textContent = length
       counterCurrent.textContent = currIndex + 1
-      imageListNode.style.translate = `0 ${-currIndex * 100}%`
     }
     function removeFailedImg() {
       const isLandscape = options.minWidth > options.minHeight
@@ -728,6 +732,7 @@ window.ImageViewer = (function () {
     const baseIndex = current ? liList.indexOf(current) : clearIndex !== -1 ? clearIndex : options.index || 0
     const base = current || liList[baseIndex] || liList[0]
     base.classList.add('current')
+    base.style.translate = '100%'
 
     const targetSrc = clearSrc || lastSrc
     const src = base.firstChild.src
@@ -736,9 +741,6 @@ window.ImageViewer = (function () {
       base.firstChild.style.transform = lastTransform
     }
     lastTransform = ''
-
-    const imageListNode = shadowRoot.querySelector('#iv-image-list')
-    imageListNode.style.translate = `0 ${-baseIndex * 100}%`
 
     const counterTotal = shadowRoot.querySelector('#iv-counter-total')
     const counterCurrent = shadowRoot.querySelector('#iv-counter-current')
@@ -1348,16 +1350,17 @@ window.ImageViewer = (function () {
     let moveCount = 0
 
     function moveToNode(index) {
+      const next = imageListNode.querySelector(`li:nth-child(${index + 1})`)
+      const last = imageListNode.querySelector('li.current')
+      next.classList.add('current')
+      next.style.translate = '100%'
+      last.classList.remove('current')
+      last.style.translate = ''
+
+      const nextImage = next.querySelector('img')
+      infoWidth.textContent = nextImage.naturalWidth
+      infoHeight.textContent = nextImage.naturalHeight
       current.textContent = index + 1
-      imageListNode.style.translate = `0 ${-index * 100}%`
-      imageListNode.querySelector('li.current')?.classList.remove('current')
-
-      const relateListItem = imageListNode.querySelector(`li:nth-child(${index + 1})`)
-      relateListItem.classList.add('current')
-
-      const relateImage = relateListItem.querySelector('img')
-      infoWidth.textContent = relateImage.naturalWidth
-      infoHeight.textContent = relateImage.naturalHeight
       moveCount++
     }
 
@@ -1690,17 +1693,18 @@ window.ImageViewer = (function () {
     }
 
     const newIndex = getRestoreIndex()
-    shadowRoot.querySelector('#iv-counter-current').textContent = newIndex + 1
-
     const imageListNode = shadowRoot.querySelector('#iv-image-list')
-    const relateListItem = imageListNode.querySelector(`li:nth-child(${newIndex + 1})`)
-    imageListNode.style.translate = `0 ${-newIndex * 100}%`
-    imageListNode.querySelector('li.current')?.classList.remove('current')
-    relateListItem.classList.add('current')
+    const next = imageListNode.querySelector(`li:nth-child(${newIndex + 1})`)
+    const last = imageListNode.querySelector('li.current')
+    next.classList.add('current')
+    next.style.translate = '100%'
+    last.classList.remove('current')
+    last.style.translate = ''
 
-    const relateImage = relateListItem.querySelector('img')
-    shadowRoot.querySelector('#iv-info-width').textContent = relateImage.naturalWidth
-    shadowRoot.querySelector('#iv-info-height').textContent = relateImage.naturalHeight
+    const nextImage = next.querySelector('img')
+    shadowRoot.querySelector('#iv-info-width').textContent = nextImage.naturalWidth
+    shadowRoot.querySelector('#iv-info-height').textContent = nextImage.naturalHeight
+    shadowRoot.querySelector('#iv-counter-current').textContent = newIndex + 1
 
     clearSrc = ''
     clearIndex = -1
