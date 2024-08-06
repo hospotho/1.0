@@ -1350,6 +1350,7 @@ window.ImageViewer = (function () {
     let moveCount = 0
 
     function moveToNode(index) {
+      if (imageDataList.length === 1) return
       const next = imageListNode.querySelector(`li:nth-child(${index + 1})`)
       const last = imageListNode.querySelector('li.current')
       next.classList.add('current')
