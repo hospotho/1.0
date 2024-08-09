@@ -1355,8 +1355,10 @@ window.ImageViewer = (function () {
       const last = imageListNode.querySelector('li.current')
       next.classList.add('current')
       next.style.translate = '100%'
-      last.classList.remove('current')
-      last.style.translate = ''
+      if (last && last !== next) {
+        last.classList.remove('current')
+        last.style.translate = ''
+      }
 
       const nextImage = next.querySelector('img')
       infoWidth.textContent = nextImage.naturalWidth
@@ -1699,8 +1701,10 @@ window.ImageViewer = (function () {
     const last = imageListNode.querySelector('li.current')
     next.classList.add('current')
     next.style.translate = '100%'
-    last.classList.remove('current')
-    last.style.translate = ''
+    if (last && last !== next) {
+      last.classList.remove('current')
+      last.style.translate = ''
+    }
 
     const nextImage = next.querySelector('img')
     shadowRoot.querySelector('#iv-info-width').textContent = nextImage.naturalWidth
