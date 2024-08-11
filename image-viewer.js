@@ -96,6 +96,28 @@ window.ImageViewer = (function () {
     const rotate = Math.atan2(row0y, row0x)
     return [scaleX, scaleY, (rotate / Math.PI) * 180, moveX, moveY]
   }
+  function updateDisplayImage(index, init = false) {
+    // hide image to reduce gpu ram usage
+    const range = 5
+    if (imageDataList.length <= range * 2 + 1 && !init) return
+    const liList = shadowRoot.querySelectorAll('#iv-image-list li')
+    const length = liList.length
+    // tag visible image
+    for (let i = index - range; i <= index + range; i++) {
+      const li = liList[((i % length) + length) % length]
+      li.setAttribute('display', '')
+    }
+    // hide invisible image
+    const targetList = shadowRoot.querySelectorAll('#iv-image-list li.display, #iv-image-list li[display]')
+    for (const li of targetList) {
+      if (li.hasAttribute('display')) {
+        li.classList.add('display')
+      } else if (li.classList.contains('display')) {
+        li.classList.remove('display')
+      }
+      li.removeAttribute('display')
+    }
+  }
 
   const getRawUrl = (function () {
     const getRawUrl = window.ImageViewerUtils?.getRawUrl
@@ -432,17 +454,19 @@ window.ImageViewer = (function () {
         position: fixed;
         width: 100%;
         height: 100%;
-        display: flex;
+        display: none;
         justify-content: center;
         align-items: center;
         overflow: hidden;
+        }
+      #iv-image-list li.display {
+        display: flex;
         will-change: transform;
       }
       #iv-image-list li img {
         max-width: 100%;
         max-height: 100%;
         transition: transform 0.05s linear;
-        will-change: transform;
       }
       #iv-image-list li img.loaded {
         max-width: none;
@@ -733,6 +757,7 @@ window.ImageViewer = (function () {
     const base = current || liList[baseIndex] || liList[0]
     base.classList.add('current')
     base.style.translate = '100%'
+    updateDisplayImage(baseIndex, true)
 
     const targetSrc = clearSrc || lastSrc
     const src = base.firstChild.src
@@ -1351,6 +1376,9 @@ window.ImageViewer = (function () {
 
     function moveToNode(index) {
       if (imageDataList.length === 1) return
+
+      if (index % 5 === 0) updateDisplayImage(index)
+
       const next = imageListNode.querySelector(`li:nth-child(${index + 1})`)
       const last = imageListNode.querySelector('li.current')
       next.classList.add('current')
@@ -1465,6 +1493,7 @@ window.ImageViewer = (function () {
         e.preventDefault()
         const currIndex = Number(current.textContent) - 1
         const newIndex = action === 1 ? Math.min(currIndex + 10, Number(total.textContent) - 1) : Math.max(currIndex - 10, 0)
+        if (newIndex % 5 !== 0) updateDisplayImage(newIndex)
         moveToNode(newIndex)
       }
     }
@@ -1657,6 +1686,8 @@ window.ImageViewer = (function () {
     }
     if (updated) {
       tryClear()
+      const currentIndex = [...shadowRoot.querySelectorAll('#iv-image-list li')].findIndex(li => li.classList.contains('current'))
+      updateDisplayImage(currentIndex)
       console.log('Image viewer updated')
     }
   }
@@ -1705,6 +1736,7 @@ window.ImageViewer = (function () {
       last.classList.remove('current')
       last.style.translate = ''
     }
+    updateDisplayImage(newIndex)
 
     const nextImage = next.querySelector('img')
     shadowRoot.querySelector('#iv-info-width').textContent = nextImage.naturalWidth
