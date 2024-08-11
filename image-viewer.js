@@ -1686,8 +1686,6 @@ window.ImageViewer = (function () {
     }
     if (updated) {
       tryClear()
-      const currentIndex = [...shadowRoot.querySelectorAll('#iv-image-list li')].findIndex(li => li.classList.contains('current'))
-      updateDisplayImage(currentIndex)
       console.log('Image viewer updated')
     }
   }
