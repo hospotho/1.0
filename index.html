@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Viewer Demo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+      .left-column {
+        flex: 1;
+        background-color: lightblue;
+      }
+      .right-column {
+        flex: 1;
+        background-color: lightgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Viewer Demo</h1>
+    <div class="container">
+      <div class="left-column">
+        <iframe src="https://github.com/hospotho/Image-Viewer?tab=readme-ov-file#image-viewer" frameborder="0" width="100%" height="100%"></iframe>
+      </div>
+      <div class="right-column">
+        <iframe src="demo.html" frameborder="0" width="100%" height="100%"></iframe>
+      </div>
+    </div>
+  </body>
+</html>
