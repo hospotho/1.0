@@ -7,8 +7,9 @@
     <script src="image-viewer.js"></script>
   </head>
   <body>
-    <h1>This is demo web page for Image Viewer</h1> 
+    <h1>This is demo web page for Image Viewer</h1>
     <button id="startButton">click me to start image viewer</button>
+    <button id="newTabButton">click me to open on new tab</button>
     <h3>1280x853 Example <a href="https://www.pexels.com/photo/concrete-road-between-trees-1563356/">Photo by Craig Adderley from Pexels</a></h3>
     <img src="image/image1.jpg" />
     <h3>3744x5616 Example <a href="https://www.pexels.com/photo/silhouette-photography-of-person-under-starry-sky-1906658/">Photo by egil sjøholt from Pexels</a></h3>
@@ -33,11 +34,17 @@
         autoScrollEnableList: ['x.com', 'www.instagram.com', 'www.facebook.com'],
         imageUnlazyDisableList: []
       }
+
       const startButton = document.getElementById('startButton')
       startButton.addEventListener('click', () => {
         const imgList = [...document.getElementsByTagName('img')].map(img => ({src: img.src, dom: img}))
         defaultOptions.closeButton = true
         ImageViewer(imgList, defaultOptions)
+      })
+
+      const newTabButton = document.getElementById('newTabButton')
+      newTabButton.addEventListener('click', () => {
+        window.open(window.location.href, '_blank')
       })
     </script>
   </body>

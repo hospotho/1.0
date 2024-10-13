@@ -4,28 +4,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Viewer Demo</title>
+    <link rel="stylesheet" href="https://sindresorhus.com/github-markdown-css/github-markdown.css" />
     <style>
       * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
       }
+
       html,
       body {
         width: 100%;
         height: 100%;
+        font-family: Arial, sans-serif;
+      }
+
+      body > h1 {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
       }
 
       .container {
         display: flex;
-        height: 100vh;
+        height: calc(100% - 75px);
       }
-      .left-column {
-        flex: 1;
-        background-color: lightblue;
+
+      .container > div {
+        padding: 10px;
       }
+
+      .left-column,
       .right-column {
         flex: 1;
-        background-color: lightgreen;
+        height: 100%;
+        border-radius: 8px;
+      }
+
+      .left-column {
+        overflow-y: auto;
+        background-color: #f9f9f9;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        margin-right: 15px;
+      }
+
+      .right-column {
+        background-color: #fff;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
       }
     </style>
   </head>
@@ -33,11 +64,207 @@
     <h1>Image Viewer Demo</h1>
     <div class="container">
       <div class="left-column">
-        <iframe src="https://github.com/hospotho/Image-Viewer?tab=readme-ov-file#image-viewer" frameborder="0" width="100%" height="100%"></iframe>
+        <article class="markdown-body">
+          <div class="markdown-heading" dir="auto">
+            <h1 tabindex="-1" class="heading-element" dir="auto">Image Viewer</h1>
+          </div>
+          <p align="center" dir="auto">
+            <a target="_blank" rel="noopener noreferrer" href="/hospotho/Image-Viewer/blob/master/icon/icon128.png">
+              <img src="./icon/icon128.png" style="max-width: 100%" />
+            </a>
+          </p>
+          <p align="center" dir="auto">Image Viewer is a manifest V3 Chrome extension that improves your image viewing experience.</p>
+          <p dir="auto">If you like this extension, you can <a href="https://ko-fi.com/tonymilktea" rel="nofollow">buy me a coffee</a></p>
+          <div class="markdown-heading" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">Features</h2>
+          </div>
+          <ol dir="auto">
+            <li>Collect and view all images on the page.</li>
+            <li>Support video posters, canvas element and images in iframes.</li>
+            <li>Auto replace lazy loaded or resized images with original image.</li>
+            <li>Redirect middle click to original image to open link you want.</li>
+            <li>Go to original image on the page.</li>
+            <li>Fit, zoom, rotate and mirror the image.</li>
+            <li>Hotkey for image reverse search.</li>
+            <li>Download collected images.</li>
+            <li>Easy to use.</li>
+            <li>And more...</li>
+          </ol>
+          <div class="markdown-heading" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">Installation</h2>
+          </div>
+          <p dir="auto">
+            You can install release version from <a href="https://chrome.google.com/webstore/detail/image-viewer/ghdcoodfcolpdebbdhbgkbodbjololfl" rel="nofollow">Chrome Web Store</a> or development
+            version follow steps below:
+          </p>
+          <ol dir="auto">
+            <li>Download the source code and place it anywhere you want.</li>
+            <li>Open your browser and go to <code>chrome://extensions</code>.</li>
+            <li>Enable Developer Mode.</li>
+            <li>Click the "Load Unpacked" button and select the folder with the source code.</li>
+          </ol>
+          <p dir="auto">Note: Any tabs opened before the installation require a reload.</p>
+          <div class="markdown-heading default-top" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">How to use</h2>
+          </div>
+          <p dir="auto">After adding this extension to your browser, it is recommended to pin it to the toolbar.</p>
+          <p dir="auto">For image tabs, Image Viewer will be activate automatically.</p>
+          <p dir="auto">
+            For normal websites, you can activate Image Viewer by choose this extension from the right-click menu, click its icon on the toolbar or use keyboard hotkey (default
+            <kbd>Alt</kbd>+<kbd>1</kbd>).
+          </p>
+          <p dir="auto">
+            For additional options, right-click the extension icon on the toolbar. You can start the Image Viewer with disabled size filter or start with the last picked image (use it when the
+            right-click menu is disabled by the website).
+          </p>
+          <table>
+            <tbody>
+              <tr>
+                <td>Action</td>
+                <td>Controls</td>
+              </tr>
+              <tr>
+                <td>Pick image<br />(size filter will use this image as reference)</td>
+                <td><kbd>right-click</kbd> on the image</td>
+              </tr>
+              <tr>
+                <td rowspan="3">View previous/next image</td>
+                <td><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>w</kbd><kbd>a</kbd><kbd>s</kbd><kbd>d</kbd></td>
+              </tr>
+              <tr>
+                <td>Scroll on the control bar</td>
+              </tr>
+              <tr>
+                <td>Scroll on the close button</td>
+              </tr>
+              <tr>
+                <td>Fast navigation<br />(10 images, no throttle)</td>
+                <td><kbd>Ctrl</kbd>+<kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></td>
+              </tr>
+              <tr>
+                <td>Auto navigation / Slideshow<br />(until end or user interrupt)</td>
+                <td><kbd>Shift</kbd>+<kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></td>
+              </tr>
+              <tr>
+                <td rowspan="2">Go to original image on page</td>
+                <td><kbd>Enter</kbd></td>
+              </tr>
+              <tr>
+                <td><kbd>click</kbd> "Move To" button on the control bar</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><kbd>middle-click</kbd> the original image<br />(Open tab for post, video, etc.)</td>
+                <td><kbd>middle-click</kbd> on the image</td>
+              </tr>
+              <tr>
+                <td><kbd>space</kbd> or <kbd>0</kbd> (both number row and numeric keypad)</td>
+              </tr>
+              <tr>
+                <td>Fitting image</td>
+                <td>Click fitting buttons on the control bar</td>
+              </tr>
+              <tr>
+                <td rowspan="2">Move image</td>
+                <td><kbd>click</kbd> and <kbd>drag</kbd></td>
+              </tr>
+              <tr>
+                <td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>w</kbd><kbd>a</kbd><kbd>s</kbd><kbd>d</kbd></td>
+              </tr>
+              <tr>
+                <td>Reset image</td>
+                <td><kbd>double-click</kbd> anywhere</td>
+              </tr>
+              <tr>
+                <td rowspan="2">Zoom image</td>
+                <td>Scroll on the image</td>
+              </tr>
+              <tr>
+                <td><kbd>Alt</kbd>+<kbd>↑</kbd><kbd>↓</kbd><kbd>w</kbd><kbd>s</kbd></td>
+              </tr>
+              <tr>
+                <td rowspan="2">Rotate image</td>
+                <td>Hold <kbd>Alt</kbd> and scroll</td>
+              </tr>
+              <tr>
+                <td><kbd>Alt</kbd>+<kbd>←</kbd><kbd>→</kbd><kbd>a</kbd><kbd>d</kbd></td>
+              </tr>
+              <tr>
+                <td>Mirror image</td>
+                <td>Hold <kbd>Alt</kbd> and <kbd>click</kbd></td>
+              </tr>
+              <tr>
+                <td>Image reverse search</td>
+                <td>Press the hotkeys defined in setting</td>
+              </tr>
+              <tr>
+                <td>Change background color<br />(loop: transparent -&gt; black -&gt; white)</td>
+                <td><kbd>Shift</kbd>+<kbd>b</kbd></td>
+              </tr>
+              <tr>
+                <td>Download collected images</td>
+                <td><kbd>Shift</kbd>+<kbd>d</kbd> (default)</td>
+              </tr>
+              <tr>
+                <td>Enable auto scroll</td>
+                <td><kbd>Shift</kbd>+<kbd>r</kbd> (default)</td>
+              </tr>
+              <tr>
+                <td rowspan="2">Close image viewer</td>
+                <td><kbd>ESC</kbd> or <kbd>NumpadAdd</kbd></td>
+              </tr>
+              <tr>
+                <td>Click the close button</td>
+              </tr>
+              <tr>
+                <td>Close current tab</td>
+                <td><kbd>right-click</kbd> the close button</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="markdown-heading" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">Browser support</h2>
+          </div>
+          <p dir="auto">
+            The entire project was written in Vanilla JavaScript with extension API supported by Chromium-based browsers. It should also work on Firefox, but it has not been tested yet.
+          </p>
+          <p dir="auto">The standalone <code>image-viewer.js</code> should work on all modern browsers, and you can integrated into your own website with own collect image script.</p>
+          <p dir="auto">You may also use <code>image-viewer.js</code> with your own script with Tampermonkey or other alternatives.</p>
+          <div class="markdown-heading" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">ToDo</h2>
+          </div>
+          <ol dir="auto">
+            <li><code>image-viewer.min.js</code></li>
+            <li>Demo page</li>
+          </ol>
+          <div class="markdown-heading" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">History</h2>
+          </div>
+          <p dir="auto">
+            The prototype of this project was created by Eky Kwan under the MIT License, and the author of the translations in <code>_locales</code> is unknown. The first release v0.1 was launched on
+            2012-07-05, and the last release v0.1.6 was on 2012-08-12. However, the license file was either lost or not included in the Chrome Web Store version.
+          </p>
+          <p dir="auto">
+            Since I started using this extension, many new features have been added to the project. You can find the oldest version <a href="https://github.com/hospotho/Image-Viewer-Legacy">here</a>,
+            some mirroring websites may still have the raw version of v0.1.6.
+          </p>
+          <p dir="auto">
+            The old version was hard to extend, and I felt tired of it in June 2022. Therefore, I decided to clean up all the old-style, messy jQuery code and rewrite the project completely. The
+            rewrite is now complete and has also been upgraded to manifest V3.
+          </p>
+          <p dir="auto">This project is currently developed and maintained by me.</p>
+          <div class="markdown-heading" dir="auto">
+            <h2 tabindex="-1" class="heading-element" dir="auto">License</h2>
+          </div>
+          <p dir="auto">MIT license</p>
+        </article>
       </div>
       <div class="right-column">
         <iframe src="demo.html" frameborder="0" width="100%" height="100%"></iframe>
       </div>
     </div>
+    <script>
+      const howToUse = document.querySelector('div.default-top')
+      howToUse.scrollIntoView({block: 'start', behavior: 'smooth'})
+    </script>
   </body>
 </html>
